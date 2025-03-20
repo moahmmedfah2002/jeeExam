@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+
+</h:head>
+<h:body>
+    <div style="justify-content: center;width: 100%;align-items: center">
+        <div class="card bg-base-100  shadow-sm" >
+
+            <div class="card-body" style="justify-content: center; display: flex;">
+                <h2 class="card-title " style="justify-content: center;text-align: center">Employe List</h2>
+                <div style="display: flex; justify-content: center;flex: fit-content">
+
+                    <a class="link link-neutral" href="employeeListe.xhtml" style="margin-right: 10%;">employees</a>
+                    <a class="link link-neutral" href="index.xhtml">back to home</a>
+
+
+
+
+                </div>
+                <hr style="font-size: large;"/>
+
+
+
+
+
+    <div class="card">
+        <h:form id="form">
+            <p:dataTable id="products" var="product" value="#{dtContextMenuView.products}" rowKey="#{product.id}"
+                         selection="#{dtContextMenuView.selectedProduct}" selectionMode="single">
+                <f:facet name="header">
+                    RightClick to View Options
+                </f:facet>
+
+                <p:column headerText="ID">
+                    <h:outputText value="#{product.code}" />
+                </p:column>
+                <p:column headerText="Name">
+                    <h:outputText value="#{product.name}" />
+                </p:column>
+                <p:column headerText="email">
+                    <h:outputText value="#{product.category}" />
+                </p:column>
+                <p:column headerText="Skill">
+                    <h:outputText value="#{product.quantity}" />
+                </p:column>
+                <p:column headerText="Project">
+                    <h:outputText value="#{product.quantity}" />
+                </p:column>
+                <p:column headerText="Action">
+                    <h:outputText value="#{product.quantity}" />
+                </p:column>
+            </p:dataTable>
+
+            <p:contextMenu for="products">
+                <p:menuitem value="View" update="productDetail" icon="pi pi-search"
+                            oncomplete="PF('productDialog').show()" actionListener="#{dtContextMenuView.viewProduct}"/>
+                <p:menuitem value="Delete" update="products" icon="pi pi-times"
+                            action="#{dtContextMenuView.deleteProduct}"/>
+            </p:contextMenu>
+
+            <p:dialog header="Product Info" widgetVar="productDialog" modal="true" showEffect="fade"
+                      hideEffect="fade" resizable="false">
+                <p:outputPanel id="productDetail" style="text-align:center;">
+                    <p:column rendered="#{not empty dtContextMenuView.selectedProduct}">
+                        <div class="product">
+                            <div class="product-grid-item border-0" style="margin-bottom: 0">
+                                <div class="product-grid-item-top">
+                                    <div>
+                                        <i class="pi pi-tag product-category-icon"/>
+                                        <span class="product-category">#{dtContextMenuView.selectedProduct.category}</span>
+                                    </div>
+                                    <span class="product-badge status-#{dtContextMenuView.selectedProduct.inventoryStatus.name().toLowerCase()}">#{dtContextMenuView.selectedProduct.inventoryStatus.text}</span>
+                                </div>
+                                <div class="product-grid-item-content">
+                                    <p:graphicImage
+                                            name="demo/images/product/#{dtContextMenuView.selectedProduct.image}"/>
+                                    <div class="product-name">#{dtContextMenuView.selectedProduct.name}</div>
+                                    <div class="product-description">#{dtContextMenuView.selectedProduct.description}</div>
+                                    <p:rating readonly="true" value="#{dtContextMenuView.selectedProduct.rating}"/>
+                                </div>
+                                <div class="product-grid-item-bottom">
+                                    <h:outputText value="#{dtContextMenuView.selectedProduct.price}"
+                                                  styleClass="product-price">
+                                        <f:convertNumber currencySymbol="$" type="currency"/>
+                                    </h:outputText>
+                                    <p:commandButton type="button" value="Add To Cart"
+                                                     icon="pi pi-shopping-cart"
+                                                     disabled="#{dtContextMenuView.selectedProduct.inventoryStatus == 'OUTOFSTOCK'}">
+                                    </p:commandButton>
+                                </div>
+                            </div>
+                        </div>
+                    </p:column>
+                </p:outputPanel>
+            </p:dialog>
+        </h:form>
+    </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</h:body>
+</html>
+
+
+
+
+
+
